@@ -1,0 +1,47 @@
+<html>
+{% load static %}
+
+<head>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+    crossorigin="anonymous">
+
+
+  <meta charset="utf-8">
+  <meta name="description" content="Краткое описание страницы">
+  <title>{{ vacancy.title }}</title>
+
+</head>
+
+<body>
+<div class="row">
+
+  <h4 class="card  text-center"> {{ vacancy.title }} </h4>
+    <div class="card col-3">
+        <img src="{{ vacancy.image }}" class="rounded float-right",style="width: 200px;">
+    </div>
+    <div class="col-6 card-body text-left">
+        <p>
+          <h5>Зарплата</h5>
+          {{ vacancy.salary }}
+        </p>
+      <h5 class="card-subtitle">Описание</h5>
+      <p>{{ vacancy.description }}</p>
+    </div>
+    <div class="col-3">
+         <p>{{ vacancy.company }}</p>
+        <p>
+            <a href = "{% url 'api:vacancy_detail' vacancy.id%}" class="btn btn-primary">Откликнуться</a>
+        </p>
+    </div>
+
+    <div class="col-3 text-center">
+
+    </div>
+</div>
+
+</body>
+</html>
