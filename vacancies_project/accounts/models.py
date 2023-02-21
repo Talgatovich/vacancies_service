@@ -4,16 +4,16 @@ from django.contrib.auth.models import User
 # User = get_user_model()
 
 
-class Contacts(models.Model):
-	"""Контакты."""
-	address = models.CharField("Адрес", max_length=300)
-	phone_number = models.CharField("Номер телефона", max_length=11)
-	tg_link= models.CharField("Ссылка на телеграм", max_length=300)
-	vk_link = models.CharField("Ссылка в вк", max_length=300)
-	email = models.EmailField("Эл.почта")
-
-	def __str__(self):
-		return f"{self.phone_number}"
+# class Contacts(models.Model):
+# 	"""Контакты."""
+# 	address = models.CharField("Адрес", max_length=300)
+# 	phone_number = models.CharField("Номер телефона", max_length=11)
+# 	tg_link= models.CharField("Ссылка на телеграм", max_length=300)
+# 	vk_link = models.CharField("Ссылка в вк", max_length=300)
+# 	email = models.EmailField("Эл.почта")
+#
+# 	def __str__(self):
+# 		return f"{self.phone_number}"
 
 
 class Experience(models.Model):
@@ -29,21 +29,19 @@ class Experience(models.Model):
 
 class Employer(models.Model):
 	"""Работодатель."""
-	user = models.ForeignKey(
+	user = models.OneToOneField(
 		User,
 		on_delete=models.CASCADE,
 		related_name='employer'
 	)
 	email = models.EmailField("Почта")
-	company_name = models.CharField("Название компании",max_length=150)
+	company_name = models.CharField("Название компании", max_length=150)
 	staff_quantity = models.PositiveIntegerField("Количество сотрудников")
 	city = models.CharField("Город", max_length=50)
-	contacts = models.ForeignKey(
-		Contacts,
-		related_name='employer_contacts',
-		on_delete=models.SET_NULL,
-		null=True
-	)
+	address = models.CharField("Адрес", max_length=300, blank=True)
+	phone_number = models.CharField("Номер телефона", max_length=11, blank=True)
+	tg_link = models.CharField("Ссылка на телеграм", max_length=100, blank=True)
+	vk_link = models.CharField("Ссылка в вк", max_length=100, blank=True)
 	about = models.CharField("О компании", max_length=2000)
 	is_employer = models.BooleanField(default=True)
 
@@ -53,28 +51,27 @@ class Employer(models.Model):
 
 class Applicant(models.Model):
 	"""Соискатель."""
-	user = models.ForeignKey(
+	user = models.OneToOneField(
 		User,
 		on_delete=models.CASCADE,
 		related_name='applicant'
 	)
-	firstname = models.CharField("Имя",max_length=150)
-	lastname = models.CharField("Фамилия",max_length=150)
+	firstname = models.CharField("Имя", max_length=150)
+	lastname = models.CharField("Фамилия", max_length=150)
 	patronymic = models.CharField("Отчество", max_length=150)
 	email = models.EmailField("Почта")
-	contacts = models.ForeignKey(
-		Contacts,
-		on_delete=models.SET_NULL,
-		related_name='applicant_contacts',
-		null=True
-	)
+	city = models.CharField("Город", max_length=50)
+	address = models.CharField("Адрес", max_length=300, blank=True)
+	phone_number = models.CharField("Номер телефона", max_length=11, blank=True)
+	tg_link = models.CharField("Ссылка на телеграм", max_length=100, blank=True)
+	vk_link = models.CharField("Ссылка в вк", max_length=100, blank=True)
 	work_experience = models.ForeignKey(
 		Experience,
 		on_delete=models.SET_NULL,
 		related_name='experience',
 		null=True
 	)
-	is_employer = models.BooleanField()
+	is_employer = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f"{self.firstname}"

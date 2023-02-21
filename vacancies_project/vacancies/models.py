@@ -30,3 +30,11 @@ class Feedback(models.Model):
 		related_name='feedback',
 		on_delete=models.CASCADE
 	)
+
+	class Meta:
+		constraints = [
+			models.UniqueConstraint(
+				fields=['vacancy', 'applicant'],
+				name='unique_feedback'
+			)
+		]
