@@ -6,13 +6,17 @@ from .views import (
     EmployerRegistration,
     ApplicantRegistration,
     VacancyViewSet,
-    SendFeedBackView,
+    SendFeedBackViewSet,
+    ApplicantFeedBacksViewSet,
+    EmpoyerFeedBacksViewSet,
 )
 
 router = DefaultRouter()
 app_name = "api"
-router.register('vacancies', VacancyViewSet, basename='vacancies')
-router.register(r'vacancies/(?P<vacancy_id>\d+)/feedback', SendFeedBackView, basename='feedback')
+router.register("vacancies", VacancyViewSet, basename="vacancies")
+router.register(r"vacancies/(?P<vacancy_id>\d+)/feedback", SendFeedBackViewSet, basename="feedback")
+router.register("applicant-feed", ApplicantFeedBacksViewSet, basename="applicant_feedback")
+router.register("employer-feed", EmpoyerFeedBacksViewSet, basename="employer_feedback")
 
 
 urlpatterns = [

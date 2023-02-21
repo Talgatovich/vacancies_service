@@ -1,17 +1,47 @@
 from pprint import pprint
-
+from rest_framework import mixins, viewsets
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView, status
 from vacancies.models import Vacancy
-from .serializers import VacancySerializer, EmployerCreateSerializer, ApplicantCreateSerializer, FeedbackSerializer
+from .serializers import (
+	VacancySerializer,
+	EmployerCreateSerializer,
+	ApplicantCreateSerializer,
+	FeedbackSerializer,
+	ShowFeedbacksSerializer,
+	ShowExperienceSerializer,
+)
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework import generics
-from accounts.models import Employer, Applicant
+from accounts.models import Employer, Applicant, Experience
 from vacancies.models import Feedback
 from django.shortcuts import get_object_or_404
 
 CREATED = status.HTTP_201_CREATED
+
+
+class CreateViewSet(
+	mixins.CreateModelMixin,
+	viewsets.GenericViewSet
+):
+	pass
+
+
+class ListRetrieveDestroyViewSet(
+	mixins.ListModelMixin,
+	mixins.RetrieveModelMixin,
+	mixins.DestroyModelMixin,
+	viewsets.GenericViewSet
+):
+	pass
+
+class ListRetrieveViewSet(
+	mixins.ListModelMixin,
+	mixins.RetrieveModelMixin,
+	viewsets.GenericViewSet
+):
+	pass
 
 
 class VacancyAPIView(APIView):
@@ -52,19 +82,19 @@ class VacancyViewSet(ModelViewSet):
 	"""Вакансии"""
 	queryset = Vacancy.objects.all()
 	serializer_class = VacancySerializer
+	# Добавить пермишены
 
+	def perform_create(self, serializer):
+		user = self.request.user
+		company = get_object_or_404(Employer, user_id=user.id)
+		serializer.save(company=company)
 
-class SendFeedBackView(ModelViewSet):
+class SendFeedBackViewSet(CreateViewSet):
 	"""Отправка отклика работодателю"""
 
-	# queryset = Feedback.objects.all()
+	queryset = Feedback.objects.all()
 	serializer_class = FeedbackSerializer
 
-	def get_queryset(self):
-		user = self.request.user
-		applicant = get_object_or_404(Applicant, user_id=user.id)
-		queryset = Feedback.objects.all().filter(applicant_id=applicant)
-		return queryset
 	def perform_create(self, serializer):
 		user = self.request.user
 		applicant = get_object_or_404(Applicant, user_id=user.id)
@@ -72,9 +102,28 @@ class SendFeedBackView(ModelViewSet):
 		vacancy = get_object_or_404(Vacancy, id=vacancy_id)
 		serializer.save(applicant_id=applicant.id, vacancy_id=vacancy.id)
 
-	def validate(self, attrs):
-		print(self.__dict__)
-		print(attrs.__dict__)
-		return attrs
+
+class ApplicantFeedBacksViewSet(ListRetrieveDestroyViewSet):
+	"""Отклики соискателя"""
+	serializer_class = FeedbackSerializer
+
+	def get_queryset(self):
+		user = self.request.user
+		applicant = get_object_or_404(Applicant, user_id=user.id)
+		queryset = Feedback.objects.all().filter(applicant_id=applicant)
+		return queryset
+
+class EmpoyerFeedBacksViewSet(ListRetrieveViewSet):
+	"""Отклики на вакансии работодателя"""
+	serializer_class = ShowFeedbacksSerializer
+
+	def get_queryset(self):
+		user = self.request.user
+		employer = get_object_or_404(Employer, user_id=user.id)
+		queryset = Feedback.objects.all().filter(vacancy__company=employer)
+		return queryset
 
 
+class ExperienceViewSet(ModelViewSet):
+	queryset = Experience.objects.all()
+	serializer_class = ShowExperienceSerializer

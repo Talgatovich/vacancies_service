@@ -1,20 +1,11 @@
 from django.contrib import admin
 from .models import Applicant, Employer, Experience
 
-# @admin.register(Contacts)
-# class ContactsAdmin(admin.ModelAdmin):
-# 	list_display = (
-# 		"address",
-# 		"phone_number",
-# 		"tg_link",
-# 		"vk_link",
-# 		"email",
-# 	)
-
 
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):
 	list_display = (
+		"applicant",
 		"company_name",
 		"start_date",
 		"finish_date",
@@ -31,7 +22,6 @@ class EmployerAdmin(admin.ModelAdmin):
 		"company_name",
 		"staff_quantity",
 		"city",
-
 		"about",
 		"is_employer"
 	)
@@ -46,7 +36,5 @@ class ApplicantAdmin(admin.ModelAdmin):
 		"lastname",
 		"patronymic",
 		"email",
-
-		"work_experience",
 		"is_employer"
 	)
