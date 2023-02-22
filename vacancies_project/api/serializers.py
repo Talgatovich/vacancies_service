@@ -1,115 +1,187 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from vacancies.models import Vacancy
-from accounts.models import Employer, Applicant, Experience
-from vacancies.models import Feedback
-from pprint import pprint
+
+from accounts.models import Applicant, Employer, Experience
+from vacancies.models import Feedback, Vacancy
+
+
+class ShowEmployerSerializer(serializers.ModelSerializer):
+    """Информация о работодателе"""
+
+    class Meta:
+        model = Employer
+        fields = (
+            "company_name",
+            "staff_quantity",
+            "city",
+            "address",
+            "phone_number",
+            "tg_link",
+            "vk_link",
+            "about",
+            "email",
+        )
 
 
 class VacancySerializer(serializers.ModelSerializer):
-	"""Вакансия"""
-	# company = serializers.StringRelatedField(read_only=True)
+    """Информация о вакансии"""
 
-	class Meta:
-		model = Vacancy
-		fields = (
-			"id",
-			"title",
-			"salary",
-			"description",
-			"image",
-			"company",
-		)
-		read_only_fields = ("company",)
-	# def get_company(self):
-	# 	request = self.context.get('request')
-	# 	user = request.user
-	# 	company = Employer.objects.get(user_id=user.id)
-	# 	print(company, "*" * 79)
-	# 	return company
+    company = serializers.StringRelatedField()
+
+    class Meta:
+        model = Vacancy
+        fields = (
+            "id",
+            "title",
+            "salary",
+            "description",
+            "company",
+        )
+        read_only_fields = ("company",)
+
+
+class ExtendedVacancySerializer(serializers.ModelSerializer):
+    """Расширенная информация о вакансии"""
+
+    company = ShowEmployerSerializer()
+
+    class Meta:
+        model = Vacancy
+        fields = (
+            "id",
+            "title",
+            "salary",
+            "description",
+            "image",
+            "company",
+        )
+        read_only_fields = ("company",)
 
 
 class EmployerCreateSerializer(serializers.ModelSerializer):
-	"""Регистрация работодателя"""
-	user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    """
+        Регистрация работодателя.
+        Внимание!Перед этим необходимо зарегистрировать
+        пользователя и получить токен.
+    """
 
-	class Meta:
-		model = Employer
-		fields = "__all__"
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Employer
+        fields = (
+            "user",
+            "company_name",
+            "staff_quantity",
+            "city",
+            "address",
+            "phone_number",
+            "tg_link",
+            "vk_link",
+            "about",
+            "email",
+        )
 
 
 class ApplicantCreateSerializer(serializers.ModelSerializer):
-	"""Регистрация соискателя"""
-	user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    """
+        Регистрация соискателя.
+        Внимание!Перед этим необходимо зарегистрировать
+        пользователя и получить токен.
+    """
 
-	class Meta:
-		model = Applicant
-		fields = "__all__"
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Applicant
+        fields = (
+            "user",
+            "firstname",
+            "lastname",
+            "patronymic",
+            "email",
+            "city",
+            "address",
+            "phone_number",
+            "tg_link",
+            "vk_link",
+        )
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
-	"""Отклики"""
-	class Meta:
-		model = Feedback
-		fields = ("id", 'vacancy', 'applicant')
-		read_only_fields = ('vacancy', 'applicant')
+    """Отправка отклика на вакансию"""
 
-	def validate(self, attrs):
-		request = self.context.get('request')
-		user = request.user
-		applicant = Applicant.objects.get(user_id=user.id)
-		vacancy_id = request.parser_context.get('kwargs').get('vacancy_id')
-		if Feedback.objects.all().filter(
-				applicant=applicant, vacancy=vacancy_id
-		).exists():
-			raise serializers.ValidationError(
-				{'Ошибка': 'Вы уже откликались на эту вакансию'}
-			)
-		return attrs
+    class Meta:
+        model = Feedback
+        fields = ("id", "vacancy", "applicant")
+        read_only_fields = ("vacancy", "applicant")
 
-	def to_representation(self, instance):
-		data = {"feedback_id": instance.id}
-		data.update(VacancySerializer(instance.vacancy).data)
-		return data
+    def validate(self, attrs):
+        request = self.context.get("request")
+        user = request.user
+        applicant = Applicant.objects.get(user_id=user.id)
+        vacancy_id = request.parser_context.get("kwargs").get("vacancy_id")
+        if (
+            Feedback.objects.all()
+            .filter(applicant=applicant, vacancy=vacancy_id)
+            .exists()
+        ):
+            raise serializers.ValidationError(
+                {"Ошибка": "Вы уже откликались на эту вакансию"}
+            )
+        return attrs
+
+    def to_representation(self, instance):
+        data = {"feedback_id": instance.id}
+        data.update(VacancySerializer(instance.vacancy).data)
+        return data
 
 
 class ShowExperienceSerializer(serializers.ModelSerializer):
-	"""Вывод информации об опыте"""
-	class Meta:
-		model = Experience
-		fields = "__all__"
+    """Вывод информации об опыте работы"""
+
+    class Meta:
+        model = Experience
+        fields = (
+            "id",
+            "company_name",
+            "start_date",
+            "finish_date",
+            "job_results",
+        )
 
 
 class ShowApplicantSerializer(serializers.ModelSerializer):
-	"""Вывод информации о соискателе"""
-	experience = ShowExperienceSerializer(read_only=True, many=True)
-	class Meta:
-		model = Applicant
-		fields = (
-			"firstname",
-			"lastname",
-			"patronymic",
-			"email",
-			"city",
-			"address",
-			"phone_number",
-			"tg_link",
-			"vk_link",
-			"experience"
+    """Вывод информации о соискателе"""
 
-		)
+    experience = ShowExperienceSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Applicant
+        fields = (
+            "firstname",
+            "lastname",
+            "patronymic",
+            "email",
+            "city",
+            "address",
+            "phone_number",
+            "tg_link",
+            "vk_link",
+            "experience",
+        )
 
 
 class ShowFeedbacksSerializer(serializers.ModelSerializer):
-	"""Для просмотра откликов от соискателей"""
-	class Meta:
-		model = Feedback
-		fields = ("applicant", "vacancy")
+    """Просмотр откликов от соискателей"""
 
-	def to_representation(self, instance):
-		data = {
-			"vacancy_id": instance.vacancy.id,
-			"vacancy_title": instance.vacancy.title
-		}
-		data.update(ShowApplicantSerializer(instance.applicant).data)
-		return data
+    class Meta:
+        model = Feedback
+        fields = ("applicant", "vacancy")
+
+    def to_representation(self, instance):
+        data = {
+            "vacancy_id": instance.vacancy.id,
+            "vacancy_title": instance.vacancy.title,
+        }
+        data.update(ShowApplicantSerializer(instance.applicant).data)
+        return data

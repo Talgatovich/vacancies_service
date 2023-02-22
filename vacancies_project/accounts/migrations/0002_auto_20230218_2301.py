@@ -6,32 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0001_initial'),
+        ("accounts", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='applicant',
-            name='email',
-            field=models.EmailField(default=2, max_length=254, verbose_name='Почта'),
+            model_name="applicant",
+            name="email",
+            field=models.EmailField(default=2, max_length=254, verbose_name="Почта"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='applicant',
-            name='firstname',
-            field=models.CharField(default=1, max_length=150, verbose_name='Имя'),
+            model_name="applicant",
+            name="firstname",
+            field=models.CharField(default=1, max_length=150, verbose_name="Имя"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='applicant',
-            name='lastname',
-            field=models.CharField(default=2, max_length=150, verbose_name='Фамилия'),
+            model_name="applicant",
+            name="lastname",
+            field=models.CharField(default=2, max_length=150, verbose_name="Фамилия"),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='employer',
-            name='email',
-            field=models.EmailField(default=2, max_length=254, verbose_name='Почта'),
+            model_name="employer",
+            name="email",
+            field=models.EmailField(default=2, max_length=254, verbose_name="Почта"),
             preserve_default=False,
         ),
     ]

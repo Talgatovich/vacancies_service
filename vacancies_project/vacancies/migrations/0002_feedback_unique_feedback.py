@@ -6,12 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vacancies', '0001_initial'),
+        ("vacancies", "0001_initial"),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='feedback',
-            constraint=models.UniqueConstraint(fields=('vacancy', 'applicant'), name='unique_feedback'),
+            model_name="feedback",
+            constraint=models.UniqueConstraint(
+                fields=("vacancy", "applicant"), name="unique_feedback"
+            ),
         ),
     ]
