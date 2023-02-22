@@ -78,8 +78,8 @@ python3 manage.py runserver
 ---
 
 
-#### Данный проект временно доступен по [ссылке]()
 
----
+
+
 
 Автор: [Ибятов Раиль](https://github.com/Talgatovich)
