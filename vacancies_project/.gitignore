@@ -130,6 +130,6 @@ dmypy.json
 
 # Pycharm
 
-.idea/
+ ../.idea/
 
-vacancies_project/media/
+media/

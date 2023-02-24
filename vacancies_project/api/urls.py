@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (  # VacancyAPIView,; VacancyDetail,
+from .views import (
     ApplicantFeedBacksViewSet,
     ApplicantRegistration,
     EmployerRegistration,
@@ -12,7 +12,7 @@ from .views import (  # VacancyAPIView,; VacancyDetail,
 )
 
 router = DefaultRouter()
-app_name = "api"
+
 router.register("vacancies", VacancyViewSet, basename="vacancies")
 router.register(
     r"vacancies/(?P<vacancy_id>\d+)/feedback", SendFeedBackViewSet, basename="feedback"
@@ -29,6 +29,5 @@ urlpatterns = [
     path("reg_applicant/", ApplicantRegistration.as_view()),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
-    # path('vacancies/', VacancyAPIView.as_view(),  name="vacancies"),
-    # path("vacancies/<int:pk>/", VacancyDetail.as_view(), name="vacancy_detail"),
+
 ]

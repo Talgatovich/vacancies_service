@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "sorl.thumbnail",
     "drf_yasg",
     "rest_framework",
     "djoser",
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "vacancies.apps.VacanciesConfig",
     "api.apps.ApiConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    # Устанавливаем срок жизни токена
+
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }

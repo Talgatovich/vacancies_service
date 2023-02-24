@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
 
   <link
@@ -13,48 +14,11 @@
   <title>Вакансии</title>
 
 </head>
-<header>
-    <nav class="navbar navbar-light" style="background-color: lightskyblue">
-    <div class="container">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link "
-            href="">Об авторе</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link"
-          href="">Технологии</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="">Новая запись</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light" href="">Изменить пароль</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light"
-          href="">Выйти</a>
-        </li>
-        <li>
-          Пользователь
-        <li>
-
-        <li class="nav-item">
-          <a class="nav-link link-light "
-          href="">Войти</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light"
-          href="">Регистрация</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-</header>
 
 <body>
+<header>
+      {% include 'includes/header.html' %}
+</header>
 <blockquote class="blockquote text-center">
  <h1>Vacancies</h1>
 </blockquote>
@@ -77,9 +41,12 @@
     <div class="card col-3 p-3 border bg-light">
        <p>{{ vacancy.company }}</p>
         <p>
-              <a href = "{% url 'api:vacancy_detail' vacancy.id%}" class="btn btn-primary">Читать целиком</a>
+             <a href = "{% url 'vacancies:vacancy_detail' vacancy.pk%}" class="btn btn-primary">Читать целиком</a>
         </p>
     </div>
 
 {% endfor %}
-</body></html>
+
+</body>
+
+</html>

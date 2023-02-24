@@ -1,5 +1,6 @@
 <html>
 {% load static %}
+{% load thumbnail %}
 
 <head>
 
@@ -17,13 +18,15 @@
 </head>
 
 <body>
+<header>
+      {% include 'includes/header.html' %}
+</header>
 <div class="row">
 
   <h4 class="card  text-center"> {{ vacancy.title }} </h4>
-    <div class="card col-3">
-        <img src="{{ vacancy.image }}" class="rounded float-right",style="width: 200px;">
-    </div>
+
     <div class="col-6 card-body text-left">
+
         <p>
           <h5>Зарплата</h5>
           {{ vacancy.salary }}
@@ -32,9 +35,28 @@
       <p>{{ vacancy.description }}</p>
     </div>
     <div class="col-3">
-         <p>{{ vacancy.company }}</p>
+
+         <h3>{{ vacancy.company }}</h3>
+        {% thumbnail vacancy.image "300x200" crop="left" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        <br>
+        <h4>{{ vacancy.company.about }}</h4>
+        <div <h3> Наши контакты </h3>
+            <h5>{{ vacancy.company.email }}</h5>
+            <h5>{{ vacancy.company.city }}</h5>
+            <h5>{{ vacancy.company.addres }}</h5>
+            <h5>{{ vacancy.company.phone_number }}</h5>
+            <h5>{{ vacancy.company.addres }}</h5>
+            <h5>{{ vacancy.company.tg_link }}</h5>
+            <h5>{{ vacancy.company.vk_link }}</h5>
+
+
+        </div>
+
+
         <p>
-            <a href = "{% url 'api:vacancy_detail' vacancy.id%}" class="btn btn-primary">Откликнуться</a>
+            <a href = "{% url 'vacancy: index}" class="btn btn-primary">Откликнуться</a>
         </p>
     </div>
 
