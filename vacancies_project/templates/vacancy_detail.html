@@ -47,17 +47,20 @@
             <h5>{{ vacancy.company.city }}</h5>
             <h5>{{ vacancy.company.addres }}</h5>
             <h5>{{ vacancy.company.phone_number }}</h5>
-            <h5>{{ vacancy.company.addres }}</h5>
+            <h5>{{ vacancy.company.address }}</h5>
             <h5>{{ vacancy.company.tg_link }}</h5>
             <h5>{{ vacancy.company.vk_link }}</h5>
 
 
         </div>
 
+        {% if request.user.is_authenticated and is_applicant == True and is_sent == False  %}
 
-        <p>
-            <a href = "{% url 'vacancy: index}" class="btn btn-primary">Откликнуться</a>
-        </p>
+                <p>
+                    <a href ="{% url 'vacancies:feedback' vacancy.pk%}" class="btn btn-primary">Откликнуться</a>
+                </p>
+
+        {% endif %}
     </div>
 
     <div class="col-3 text-center">

@@ -6,37 +6,47 @@
 <nav class="navbar navbar-light" style="background-color: lightskyblue">
     <div class="container">
       <ul class="nav nav-pills">
+      {% with request.resolver_match.view_name as view_name %}
+      <ul class="nav nav-pills">
         <li class="nav-item">
           <a class="nav-link "
             href="{% url 'vacancies:index' %}">Вакансии</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link"
-          href="">Технологии</a>
         </li>
+        {% if request.user.is_authenticated %}
+          {% if is_applicant == False %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'vacancies:create_vacancy' %}">Новая вакансия</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'vacancies:employer_feedback' %}">Отклики соискателей</a>
+            </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="">Новая запись</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light" href="">Изменить пароль</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light"
-          href="">Выйти</a>
-        </li>
-        <li>
-          Пользователь
-        <li>
+          {% elif is_applicant == True %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'vacancies:applicant_feedback' %}">Мои отклики</a>
+            </li>
+          {% endif %}
 
-        <li class="nav-item">
-          <a class="nav-link link-light "
-          href="">Войти</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link link-light"
-          href="{% url 'users:signup' %}">Регистрация</a>
-        </li>
+          <li class="nav-item">
+                    <a class="nav-link link-light"
+                    href="{% url 'users:logout' %}">Выйти</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link link-light {% if view_name == 'users:login' %}active{% endif %}"
+            href="{% url 'users:login' %}">Войти</a>
+
+          <li class="nav-item">
+            <a class="nav-link link-light"
+            href="{% url 'users:applicant-signup' %}">Регистрация соискателя</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light"
+            href="{% url 'users:employer-signup' %}">Регистрация работодателя</a>
+          </li>
+        {% endif %}
+      {% endwith %}
       </ul>
     </div>
   </nav>

@@ -44,6 +44,9 @@ class Applicant(models.Model):
         verbose_name = "Соискатель"
         verbose_name_plural = "Соискатели"
 
+    def get_full_name(self):
+        return f"{self.firstname} {self.lastname} {self.patronymic}"
+
     def __str__(self):
         return f"{self.firstname}"
 

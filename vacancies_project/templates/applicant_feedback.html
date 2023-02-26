@@ -20,28 +20,27 @@
       {% include 'includes/header.html' %}
 </header>
 <blockquote class="blockquote text-center">
- <h1>Вакансии</h1>
+ <h1>Мои отклики</h1>
 </blockquote>
 
-{% for vacancy in vacancies %}
+{% for feedback in feedbacks %}
   <div class="row container gy-5">
     <div class="card col-9 text-center p-3 border bg-light">
-          <h5 class="card-header"> {{ vacancy.title }} </h5>
-          <div class="card-body">
-            <p>
-              <h5>Зарплата</h5>
-              {{ vacancy.salary }}
-            </p>
-            <h5 class="card-subtitle">Описание</h5>
-            <p>{{ vacancy.description }}</p>
-          </div>
+
+
+        <div <h2>
+        <a href = "{% url 'vacancies:vacancy_detail' feedback.vacancy.pk%}">{{ feedback.vacancy.title }}</a></h2>
+        </div>
+
+            <h6>{{ feedback.vacancy.company.company_name }}</h6>
+            <h6>{{ feedback.vacancy.company.email }}</h6>
+            <h6>{{ feedback.vacancy.company.city }}</h6>
+            <h6>{{ feedback.vacancy.company.phone_number }}</h6>
+
+
+        </div>
     </div>
-    <div class="card col-3 p-3 border bg-light">
-       <p>{{ vacancy.company }}</p>
-        <p>
-             <a href = "{% url 'vacancies:vacancy_detail' vacancy.pk%}" class="btn btn-primary">Читать целиком</a>
-        </p>
-    </div>
+
 
 {% endfor %}
 
