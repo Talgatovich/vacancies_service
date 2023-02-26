@@ -129,7 +129,5 @@ dmypy.json
 .pyre/
 
 # Pycharm
-
- ../.idea/
-
 media/
+../.idea
