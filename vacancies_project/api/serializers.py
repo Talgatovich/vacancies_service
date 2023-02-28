@@ -59,9 +59,9 @@ class ExtendedVacancySerializer(serializers.ModelSerializer):
 
 class EmployerCreateSerializer(serializers.ModelSerializer):
     """
-        Регистрация работодателя.
-        Внимание!Перед этим необходимо зарегистрировать
-        пользователя и получить токен.
+    Регистрация работодателя.
+    Внимание!Перед этим необходимо зарегистрировать
+    пользователя и получить токен.
     """
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -84,9 +84,9 @@ class EmployerCreateSerializer(serializers.ModelSerializer):
 
 class ApplicantCreateSerializer(serializers.ModelSerializer):
     """
-        Регистрация соискателя.
-        Внимание!Перед этим необходимо зарегистрировать
-        пользователя и получить токен.
+    Регистрация соискателя.
+    Внимание!Перед этим необходимо зарегистрировать
+    пользователя и получить токен.
     """
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())

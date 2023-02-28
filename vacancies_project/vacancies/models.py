@@ -6,10 +6,18 @@ from accounts.models import Applicant, Employer
 class Vacancy(models.Model):
     """Вакансия"""
 
-    title = models.CharField("Название", max_length=100)
-    salary = models.PositiveIntegerField("Зарплата")
-    description = models.CharField("Описание", max_length=3000)
-    image = models.ImageField("Картинка", upload_to="vacancy")
+    title = models.CharField(
+        "Название", max_length=100, help_text="Заполните название вакансии"
+    )
+    salary = models.PositiveIntegerField(
+        "Зарплата", help_text="Заработная плата в рублях"
+    )
+    description = models.TextField(
+        "Описание", max_length=3000, help_text="Заполните описание"
+    )
+    image = models.ImageField(
+        "Картинка", upload_to="vacancy", help_text="Загрузите изображение"
+    )
     company = models.ForeignKey(
         Employer, related_name="vacancy", on_delete=models.CASCADE
     )

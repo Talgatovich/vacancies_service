@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vacancies', '0003_auto_20230222_1423'),
+        ("vacancies", "0003_auto_20230222_1423"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='feedback',
+            name="feedback",
             options={},
         ),
         migrations.RemoveConstraint(
-            model_name='feedback',
-            name='unique_feedback',
+            model_name="feedback",
+            name="unique_feedback",
         ),
     ]

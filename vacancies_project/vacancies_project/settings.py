@@ -107,7 +107,6 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
@@ -128,4 +127,5 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = '/vacancies/'
+LOGIN_REDIRECT_URL = "vacancies:index"
+LOGIN_URL = "users:login"

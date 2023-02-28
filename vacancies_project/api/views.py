@@ -22,10 +22,10 @@ from .serializers import (
 
 class EmployerRegistration(generics.CreateAPIView):
     """
-         Регистрация работодателя.
-         Внимание!Перед этим необходимо зарегистрировать
-         пользователя и получить токен.
-     """
+    Регистрация работодателя.
+    Внимание!Перед этим необходимо зарегистрировать
+    пользователя и получить токен.
+    """
 
     queryset = Employer.objects.all()
     serializer_class = EmployerCreateSerializer
@@ -33,9 +33,9 @@ class EmployerRegistration(generics.CreateAPIView):
 
 class ApplicantRegistration(generics.CreateAPIView):
     """
-        Регистрация соискателя.
-        Внимание!Перед этим необходимо зарегистрировать
-        пользователя и получить токен.
+    Регистрация соискателя.
+    Внимание!Перед этим необходимо зарегистрировать
+    пользователя и получить токен.
     """
 
     queryset = Applicant.objects.all()

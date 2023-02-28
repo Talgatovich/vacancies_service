@@ -29,5 +29,4 @@ urlpatterns = [
     path("reg_applicant/", ApplicantRegistration.as_view()),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
-
 ]

@@ -26,7 +26,8 @@
 {% for feedback in feedbacks %}
   <div class="row container py-4">
     <div class="card col-12 text-right p-3 border bg-light">
-         <h5 class="card-header"> {{ feedback.applicant.get_full_name }} </h5>
+         <h5 class="card-header">
+        <a href = "{% url 'accounts:profile' feedback.applicant.id %}">{{ feedback.applicant.get_full_name }}</a></h5>
           <div class="card-body">
               <p>
                   <h6>{{ feedback.applicant.city }}</h6>

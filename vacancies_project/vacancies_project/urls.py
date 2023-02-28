@@ -23,9 +23,10 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("vacancies.urls")),
+    path("", include("accounts.urls")),
     path("api/", include("api.urls")),
-    path('auth/', include('users.urls')),
-    path('auth/', include('django.contrib.auth.urls')),
+    path("auth/", include("users.urls")),
+    path("auth/", include("django.contrib.auth.urls")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

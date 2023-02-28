@@ -6,16 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vacancies', '0004_auto_20230226_1443'),
+        ("vacancies", "0004_auto_20230226_1443"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='feedback',
-            options={'verbose_name': 'Отклик', 'verbose_name_plural': 'Отклики'},
+            name="feedback",
+            options={"verbose_name": "Отклик", "verbose_name_plural": "Отклики"},
         ),
         migrations.AddConstraint(
-            model_name='feedback',
-            constraint=models.UniqueConstraint(fields=('vacancy', 'applicant'), name='unique_feedback'),
+            model_name="feedback",
+            constraint=models.UniqueConstraint(
+                fields=("vacancy", "applicant"), name="unique_feedback"
+            ),
         ),
     ]
