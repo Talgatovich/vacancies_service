@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from vacancies.utils import get_is_applicant
 
 from .forms import ExperienceCreationForm
-from .models import Applicant
+from .models import Applicant, Experience
 
 
 @login_required
@@ -68,3 +68,38 @@ def add_experience(request):
         "is_applicant": is_applicant,
     }
     return render(request, "create_experience.html", context=context)
+
+
+@login_required
+def experience_edit(request, pk):
+    is_applicant = get_is_applicant(request, Applicant)
+    edit_experience = get_object_or_404(Experience, pk=pk)
+    applicant = Applicant.objects.get(user_id=request.user.id)
+    if applicant != edit_experience.applicant:
+        return redirect('vacancies:index', )
+    form = ExperienceCreationForm(
+        request.POST or None,
+        # files=request.FILES or None,
+        instance=edit_experience
+    )
+    if form.is_valid():
+        experience = form.save(commit=False)
+        experience.applicant = applicant
+        experience.save()
+        return redirect('accounts:applicant_profile')
+    context = {
+        "form": form,
+        "is_applicant": is_applicant,
+    }
+    return render(request, 'create_experience.html', context)
+
+
+@login_required
+def experience_delete(request, pk):
+    experience = get_object_or_404(Experience, pk=pk)
+    applicant = Applicant.objects.get(user_id=request.user.id)
+    if applicant != experience.applicant:
+        return redirect('vacancies:index')
+    experience.delete()
+    return redirect('accounts:applicant_profile')
+

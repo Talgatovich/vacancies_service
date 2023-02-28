@@ -45,6 +45,20 @@
                   <h5 class="card-subtitle">Результаты</h5>
                   <p>{{ experience.job_results }}</p>
                 </div>
+              <div class="card-body">
+                  <form action="{% url 'accounts:edit_experience' experience.id %}">
+                    <button class="btn btn-outline-primary">
+                    Редактировать запись
+                    </button>
+                  </form>
+              </div>
+              <div class="card-body">
+                  <form action="{% url 'accounts:delete_experience' experience.id %}">
+                    <button class="btn btn-outline-danger">
+                    Удалить запись
+                    </button>
+                  </form>
+              </div>
           </div>
 
         {% endfor %}
