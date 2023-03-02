@@ -79,7 +79,6 @@ def experience_edit(request, pk):
         return redirect('vacancies:index', )
     form = ExperienceCreationForm(
         request.POST or None,
-        # files=request.FILES or None,
         instance=edit_experience
     )
     if form.is_valid():

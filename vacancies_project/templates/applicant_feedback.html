@@ -36,9 +36,15 @@
             <h6>{{ feedback.vacancy.company.email }}</h6>
             <h6>{{ feedback.vacancy.company.city }}</h6>
             <h6>{{ feedback.vacancy.company.phone_number }}</h6>
-
-
+            <div class="card-body">
+                      <form action="{% url 'vacancies:del_applicant_feedback' feedback.id %}">
+                        <button class="btn btn-outline-danger">
+                        Удалить запись
+                        </button>
+                      </form>
+            </div>
         </div>
+
     </div>
 
 

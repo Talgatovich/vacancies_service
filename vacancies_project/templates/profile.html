@@ -19,13 +19,39 @@
 <header>
       {% include 'includes/header.html' %}
 </header>
-<blockquote class="blockquote text-center">
- <h1>{{ applicant.get_full_name }}</h1>
-</blockquote>
+ <div class="row container gy-5">
+     <div class="card text-left p-4 border bg-light">
+      <blockquote class="blockquote text-center">
+                <h1>{{ applicant.get_full_name }}</h1>
+      </blockquote>
 
+
+
+            <p>
+                  <h6>Город: {{ applicant.city }}</h6>
+              </p>
+              <p>
+                  <h6>Почта: {{ applicant.email }}</h6>
+              </p>
+              <p>
+                  <h6>Номер телефона: {{ applicant.phone_number }}</h6>
+              </p>
+              <p>
+                  <h6>Ник в телеграм: {{ applicant.tg_link }}</h6>
+              </p>
+              <p>
+                  <h6>Профиль в vk: {{ feedback.applicant.vk_link }}</h6>
+              </p>
+        </div>
+ </div>
+<br>
+<div class="text-center ">
+    <h3> Опыт работы </h3>
+</div>
 {% for experience in experiences %}
   <div class="row container gy-5">
     <div class="card col-9 text-center p-3 border bg-light">
+
           <h5 class="card-header"> {{ experience.company_name }} </h5>
           <div class="card-body">
             <p>
